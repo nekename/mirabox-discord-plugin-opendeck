@@ -92,8 +92,8 @@
 
           <form id="authorizeBox">
             <div class="mb-3">
-              <label for="open" class="form-label">获取ID</label>
-              <div class="sdpi-item-value discord-link" id="open">DEV网址</div>
+              <label for="open" class="form-label">Get ID</label>
+              <div class="sdpi-item-value discord-link" id="open">Developer Portal</div>
             </div>
 
             <div class="mb-3">
@@ -107,7 +107,7 @@
             </div>
 
             <div class="d-grid mt-4">
-              <button type="button" class="btn btn-primary" id="authorizeBtn"><i class="bi bi-key"></i>请求授权</button>
+              <button type="button" class="btn btn-primary" id="authorizeBtn"><i class="bi bi-key"></i>Request Authorization</button>
             </div>
 
             <div class="text-center mt-3">
@@ -139,10 +139,10 @@
       $websocket.openUrl('https://github.com/MiraboxSpace/discord-plugin-for-streamdock');
     });
 
-    // 自动翻译页面
+    // Automatically translate page
     $lang = window.opener.$lang;
 
-    // 遍历文本节点并翻译所有文本节点
+    // Traverse text nodes and translate all text nodes
     const main = document.querySelector('#authorizeBox');
     const walker = document.createTreeWalker(main, NodeFilter.SHOW_TEXT, (e) => {
       return e.data.trim() && NodeFilter.FILTER_ACCEPT;
@@ -151,7 +151,7 @@
       console.log(walker.currentNode.data);
       walker.currentNode.data = $lang[walker.currentNode.data];
     }
-    // placeholder 特殊处理
+    // placeholder special handling
     const translate = (item) => {
       if (item.placeholder?.trim()) {
         console.log(item.placeholder);

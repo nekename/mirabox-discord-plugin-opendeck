@@ -1,29 +1,29 @@
 const path = require('path');
 const fs = require('fs-extra');
 
-console.log('开始执行自动化构建...');
+console.log('Starting automated build...');
 
 const currentDir = __dirname;
 
-// 获取父文件夹的路径
+// Get parent folder path
 const parentDir = path.join(currentDir, '..');
-// 获取父文件夹的名称
+// Get parent folder name
 const PluginName = path.basename(parentDir);
 
 const PluginPath = path.join(process.env.APPDATA, 'HotSpot/StreamDock/plugins', PluginName);
 
 try {
-  // 删除旧的插件目录
+  // Delete old plugin directory
   fs.removeSync(PluginPath);
 
-  // 确保目标目录存在
+  // Ensure target directory exists
   fs.ensureDirSync(path.dirname(PluginPath));
 
-  // 复制当前目录到目标路径，排除 node_modules
+  // Copy current directory to target path, excluding node_modules
   fs.copySync(path.resolve(__dirname, '..'), PluginPath, {
     filter: (src) => {
       const relativePath = path.relative(path.resolve(__dirname, '..'), src);
-      // 排除 'node_modules' 和 '.git' 目录及其子文件
+      // Exclude 'node_modules' and '.git' directories and their subfiles
       return (
         !relativePath.startsWith('plugin\\node_modules') &&
         !relativePath.startsWith('plugin\\index.js') &&
@@ -52,8 +52,8 @@ process.exit(ret.status ?? 1);`;
   });
   // fs.copySync( path.join(__dirname, "build"), path.join(PluginPath,'plugin'))
 
-  console.log(`插件 "${PluginName}" 已成功复制到 "${PluginPath}"`);
-  console.log('构建成功-------------');
+  console.log(`Plugin "${PluginName}" successfully copied to "${PluginPath}"`);
+  console.log('Build successful-------------');
 } catch (err) {
-  console.error(`复制出错 "${PluginName}":`, err);
+  console.error(`Copy error "${PluginName}":`, err);
 }

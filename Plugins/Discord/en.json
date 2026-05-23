@@ -30,69 +30,70 @@
     "Tooltip": "Control the volume of audio devices"
   },
   "com.hotspot.streamdock.discord.notice": {
-    "Name": "Notice",
-    "Tooltip": "Get notified"
+    "Name": "Notifications",
+    "Tooltip": "Display alerts for recent notifications"
   },
   "com.hotspot.streamdock.discord.setDevices": {
-    "Name": "Set up your audio device",
-    "Tooltip": "Set up your audio device"
+    "Name": "Set Audio Device",
+    "Tooltip": "Select your audio input and output device"
   },
   "com.hotspot.streamdock.discord.userVolumeControl": {
-    "Name": "User volume control",
-    "Tooltip": "User volume control"
+    "Name": "User Volume Control",
+    "Tooltip": "Control the volume of users in calls"
   },
   "com.hotspot.streamdock.discord.voiceboard": {
     "Name": "Soundboard",
-    "Tooltip": "Soundboard"
+    "Tooltip": "Plays a sound on the Discord Soundboard"
   },
   "com.hotspot.streamdock.discord.mutecontrol": {
     "Name": "Mute Control",
-    "Tooltip": "Mute Control"
+    "Tooltip": "Control microphone mute state from a dial"
   },
   "com.hotspot.streamdock.discord.deafcontrol": {
-    "Name": "Deaf Control",
-    "Tooltip": "Deaf Control"
+    "Name": "Deafen Control",
+    "Tooltip": "Control deafen state from a dial"
   },
   "Category": "Discord",
   "Localization": {
-    "请启动Discord": "Please start Discord",
-    "请求授权": "Save",
-    "授权": "Authorization",
-    "服务器": "Server",
-    "文本通道": "Text Channel",
-    "设备": "Equipment",
-    "输入": "Input",
-    "输出": "Output",
-    "音量": "Volume",
-    "语音通道": "Voice Channel",
-    "获取ID": "Get ID",
-    "用户": "User",
+    "Please start Discord": "Please start Discord",
+    "Request Authorization": "Request Authorization",
+    "Authorization": "Authorization",
+    "Server": "Server",
+    "Text Channel": "Text Channel",
+    "Device": "Device",
+    "Input": "Input",
+    "Output": "Output",
+    "Volume": "Volume",
+    "Voice Channel": "Voice Channel",
+    "Get ID": "Get ID",
+    "User": "User",
     "Logout": "Logout",
-    "理想音量": "Ideal volume",
-    "调整单位": "Adjust the unit",
-    "图标样式": "Icon style",
-    "静音类型": "Mute type",
-    "模式": "Mode",
-    "设置": "Set up",
-    "设置输入设备": "Set up the input device",
-    "设置输出设备": "Set up the output device",
-    "设置二者": "Set both",
-    "调整": "Adjust",
-    "静音": "Mute",
-    "动态垂直": "Dynamic vertical",
-    "动态水平": "Dynamic level",
-    "静态": "Static",
-    "搜索": "Search",
-    "取消静音": "Unmute",
+    "Target Volume": "Target Volume",
+    "Adjustment Unit": "Adjustment Unit",
+    "Icon Style": "Icon Style",
+    "Mute Type": "Mute Type",
+    "Mode": "Mode",
+    "Set": "Set",
+    "Set Input Device": "Set Input Device",
+    "Set Output Device": "Set Output Device",
+    "Set Both": "Set Both",
+    "Adjustment": "Adjustment",
+    "Mute": "Mute",
+    "Dynamic Vertical": "Dynamic Vertical",
+    "Dynamic Level": "Dynamic Level",
+    "Static": "Static",
+    "Search": "Search",
+    "Unmute": "Unmute",
     "25%": "25%",
     "-25%": "-25%",
-    "静音/取消静音": "Mute/unmute",
-    "连接次数过多请重新启动Discord": "Too many connections, please restart Discord",
+    "Mute/Unmute": "Mute/Unmute",
+    "Too many connections, please restart Discord": "Too many connections, please restart Discord",
     "CLIENT ID": "CLIENT ID",
     "CLIENT SECRET": "CLIENT SECRET",
-    "刷新": "Refresh",
-    "info": "The service port has changed from 3002 to 26432. Please go to the APP backend to change the redirection URL. We are very sorry for the inconvenience caused to you.",
+    "Refresh": "Refresh",
+    "info": "The service port has changed from 3002 to 26432. Please go to your app's settings to change the redirect URL. We are very sorry for the inconvenience caused.",
     "View the tutorial": "View the tutorial",
-    "DEV网址": "https://discord.com/developers/applications"
+    "Developer Portal": "Developer Portal",
+    "https://discord.com/developers/applications": "https://discord.com/developers/applications"
   }
 }

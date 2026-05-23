@@ -18,7 +18,7 @@ class Plugins {
     this.ws.on('close', process.exit);
     this.ws.on('message', (e) => {
       if (this.getGlobalSettingsFlag) {
-        // 只获取一次
+        // Fetch only once
         this.getGlobalSettingsFlag = false;
         this.getGlobalSettings();
       }
@@ -59,7 +59,7 @@ class Plugins {
       }),
     );
   }
-  // 设置标题
+  // Set title
   setTitle(context, str, row = 0, num = 6) {
     let newStr = '';
     if (row && str) {
@@ -90,7 +90,7 @@ class Plugins {
       }),
     );
   }
-  // 设置背景
+  // Set background
   setImage(context, url) {
     this.ws.send(
       JSON.stringify({
@@ -103,7 +103,7 @@ class Plugins {
       }),
     );
   }
-  // 设置状态
+  // Set state
   setState(context, state) {
     this.ws.send(
       JSON.stringify({
@@ -113,7 +113,7 @@ class Plugins {
       }),
     );
   }
-  // 保存持久化数据
+  // Save persistent data
   setSettings(context, payload) {
     this.ws.send(
       JSON.stringify({
@@ -124,7 +124,7 @@ class Plugins {
     );
   }
 
-  // 在按键上展示警告
+  // Show warning on key
   showAlert(context) {
     this.ws.send(
       JSON.stringify({
@@ -134,7 +134,7 @@ class Plugins {
     );
   }
 
-  // 在按键上展示成功
+  // Show success on key
   showOk(context) {
     this.ws.send(
       JSON.stringify({
@@ -143,7 +143,7 @@ class Plugins {
       }),
     );
   }
-  // 发送给属性检测器
+  // Send to property inspector
   sendToPropertyInspector(payload) {
     this.ws.send(
       JSON.stringify({
@@ -154,7 +154,7 @@ class Plugins {
       }),
     );
   }
-  // 用默认浏览器打开网页
+  // Open web page with default browser
   openUrl(url) {
     this.ws.send(
       JSON.stringify({
@@ -165,7 +165,7 @@ class Plugins {
   }
 }
 
-// 操作类
+// Operation class
 class Actions {
   constructor(data) {
     this.data = {};
@@ -200,7 +200,7 @@ class Actions {
       });
     }
   }
-  // 属性检查器显示时
+  // When property inspector is displayed
   static currentAction = null;
   static currentContext = null;
   static actions = {};
@@ -212,7 +212,7 @@ class Actions {
   propertyInspectorDidAppearNew(data) {
     this._propertyInspectorDidAppear?.(data);
   }
-  // 初始化数据
+  // Initialize data
   willAppearNew(data) {
     this.settings = data.payload.settings;
     Plugins.instance.allAction.add(data.context);
@@ -238,7 +238,7 @@ class Actions {
     this.data[data.context] = data.payload.settings;
     this._didReceiveSettings?.(data);
   }
-  // 行动销毁
+  // Action destruction
   willDisappearNew(data) {
     eventEmitter.emit('willDisappear', data.context);
     this._willDisappear?.(data);
@@ -258,7 +258,7 @@ class EventEmitter {
     this.events = {};
   }
 
-  // 订阅事件
+  // Subscribe to events
   subscribe(event, listener) {
     if (!this.events[event]) {
       this.events[event] = [];
@@ -269,14 +269,14 @@ class EventEmitter {
     return () => this.unsubscribe(event, listener);
   }
 
-  // 取消订阅
+  // Unsubscribe
   unsubscribe(event, listenerToRemove) {
     if (!this.events[event]) return;
 
     this.events[event] = this.events[event].filter((listener) => listener !== listenerToRemove);
   }
 
-  // 发布事件
+  // Publish event
   async emit(event, data) {
     if (!this.events[event]) return;
     for (const listener of this.events[event]) {

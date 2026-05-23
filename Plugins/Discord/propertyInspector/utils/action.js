@@ -25,7 +25,7 @@ WebSocket.prototype.getGlobalSettings = function () {
   );
 };
 
-// 与插件通信
+// Communicate with plugin
 WebSocket.prototype.sendToPlugin = function (payload) {
   this.send(
     JSON.stringify({
@@ -37,7 +37,7 @@ WebSocket.prototype.sendToPlugin = function (payload) {
   );
 };
 
-//设置标题
+// Set title
 WebSocket.prototype.setTitle = function (str, row = 0, num = 6) {
   console.log(str);
   let newStr = '';
@@ -70,7 +70,7 @@ WebSocket.prototype.setTitle = function (str, row = 0, num = 6) {
   );
 };
 
-// 设置状态
+// Set state
 WebSocket.prototype.setState = function (state) {
   this.send(
     JSON.stringify({
@@ -81,7 +81,7 @@ WebSocket.prototype.setState = function (state) {
   );
 };
 
-// 设置背景
+// Set background
 WebSocket.prototype.setImage = function (url) {
   let image = new Image();
   image.src = url;
@@ -104,7 +104,7 @@ WebSocket.prototype.setImage = function (url) {
   };
 };
 
-// 打开网页
+// Open web page
 WebSocket.prototype.openUrl = function (url) {
   this.send(
     JSON.stringify({
@@ -114,7 +114,7 @@ WebSocket.prototype.openUrl = function (url) {
   );
 };
 
-// 保存持久化数据
+// Save persistent data
 WebSocket.prototype.saveData = $.debounce(function (payload) {
   this.send(
     JSON.stringify({
@@ -125,7 +125,7 @@ WebSocket.prototype.saveData = $.debounce(function (payload) {
   );
 });
 
-// StreamDock 软件入口函数
+// StreamDock software entry function
 const connectSocket = connectElgatoStreamDeckSocket;
 async function connectElgatoStreamDeckSocket(port, uuid, event, app, info) {
   info = JSON.parse(info);
@@ -135,7 +135,7 @@ async function connectElgatoStreamDeckSocket(port, uuid, event, app, info) {
   $websocket = new WebSocket('ws://127.0.0.1:' + port);
   $websocket.onopen = () => $websocket.send(JSON.stringify({ event, uuid }));
 
-  // 持久数据代理
+  // Persistent data proxy
   $websocket.onmessage = (e) => {
     let data = JSON.parse(e.data);
     if (data.event === 'didReceiveSettings') {
@@ -154,7 +154,7 @@ async function connectElgatoStreamDeckSocket(port, uuid, event, app, info) {
     $propEvent[data.event]?.(data.payload);
   };
 
-  // 自动翻译页面
+  // Automatically translate page
   if (!$local) return;
   $lang = await new Promise((resolve) => {
     const req = new XMLHttpRequest();
@@ -167,7 +167,7 @@ async function connectElgatoStreamDeckSocket(port, uuid, event, app, info) {
     };
   });
 
-  // 遍历文本节点并翻译所有文本节点
+  // Traverse text nodes and translate all text nodes
   const walker = document.createTreeWalker($dom.main, NodeFilter.SHOW_TEXT, (e) => {
     return e.data.trim() && NodeFilter.FILTER_ACCEPT;
   });
@@ -175,7 +175,7 @@ async function connectElgatoStreamDeckSocket(port, uuid, event, app, info) {
     console.log(walker.currentNode.data);
     walker.currentNode.data = $lang[walker.currentNode.data];
   }
-  // placeholder 特殊处理
+  // placeholder special handling
   const translate = (item) => {
     if (item.placeholder?.trim()) {
       console.log(item.placeholder);
@@ -188,26 +188,26 @@ async function connectElgatoStreamDeckSocket(port, uuid, event, app, info) {
 function openAuthorization() {
   window.$websocket = $websocket;
   window.$lang = $lang;
-  // 获取缩放比例
+  // Get zoom ratio
   const ratio = window.devicePixelRatio || 1;
 
-  // 原始（视觉设计）尺寸
+  // Original (visual design) dimensions
   const visualWidth = 550;
   const visualHeight = 550;
 
-  // 实际用于打开窗口的像素尺寸（缩放后）
+  // Actual pixel dimensions used to open the window (scaled)
   const popupWidth = visualWidth * ratio;
   const popupHeight = visualHeight * ratio;
 
-  // 获取屏幕的逻辑尺寸（CSS 像素）
+  // Get screen logical dimensions (CSS pixels)
   const screenWidth = window.screen.width;
   const screenHeight = window.screen.height;
-  // 计算居中位置（仍然用 CSS 像素）
+  // Calculate centered position (still in CSS pixels)
   const left = (screenWidth - popupWidth) / 2;
   const top = (screenHeight - popupHeight) / 2;
   window.open('../utils/authorization.html', '_blank', `width=${popupWidth},height=${popupHeight},top=${top},left=${left}`);
 }
 
-// StreamDock 文件路径回调
+// StreamDock file path callback
 Array.from($('input[type="file"]', true)).forEach((item) => item.addEventListener('click', () => ($FileID = item.id)));
 const onFilePickerReturn = (url) => $emit.send(`File-${$FileID}`, JSON.parse(url));

@@ -1,9 +1,9 @@
 /// <reference path="../utils/common.js" />
 /// <reference path="../utils/action.js" />
 
-// $local 是否国际化
-// $back 是否自行决定回显时机
-// $dom 获取文档元素 - 不是动态的都写在这里面
+// $local Whether internationalization is supported
+// $back Whether to decide echo timing independently
+// $dom Get document elements - Non-dynamic ones are written here
 const $local = true,
   $back = false,
   $dom = {
@@ -70,7 +70,7 @@ const addListener = (soundItem) => {
       Object.assign($settings, {
         key: e.target.getAttribute('key'),
         sound_id: e.target.getAttribute('soundId'),
-        sounds: $settings.sounds, // 保留现有 sounds
+        sounds: $settings.sounds, // Keep existing sounds
         title: e.target.getAttribute('soundName'),
         emoji_name: e.target.getAttribute('emojiName'),
       });

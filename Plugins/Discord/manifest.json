@@ -2,7 +2,7 @@
   "Actions": [
     {
       "Icon": "static/icon/1.png",
-      "Name": "麦克风静音",
+      "Name": "Mute",
       "DisableAutomaticStates": true,
       "States": [
         {
@@ -16,13 +16,13 @@
       ],
       "UserTitleEnabled": false,
       "SupportedInMultiActions": false,
-      "Tooltip": "discord operation",
+      "Tooltip": "Toggle Microphone Mute",
       "UUID": "com.hotspot.streamdock.discord.mute",
       "PropertyInspectorPath": "propertyInspector/mute/index.html"
     },
     {
       "Icon": "static/icon/2.png",
-      "Name": "耳机静音",
+      "Name": "Deafen",
       "DisableAutomaticStates": true,
       "States": [
         {
@@ -36,13 +36,13 @@
       ],
       "UserTitleEnabled": false,
       "SupportedInMultiActions": false,
-      "Tooltip": "discord operation",
+      "Tooltip": "Toggle Deafen",
       "UUID": "com.hotspot.streamdock.discord.deaf",
       "PropertyInspectorPath": "propertyInspector/deaf/index.html"
     },
     {
       "Icon": "static/icon/3",
-      "Name": "语音通道",
+      "Name": "Voice Channel",
       "States": [
         {
           "Image": "static/icon/Image5.png",
@@ -55,13 +55,13 @@
       ],
       "UserTitleEnabled": false,
       "SupportedInMultiActions": false,
-      "Tooltip": "discord operation",
+      "Tooltip": "Join a voice channel",
       "UUID": "com.hotspot.streamdock.discord.voicechannel",
       "PropertyInspectorPath": "propertyInspector/voicechannel/index.html"
     },
     {
       "Icon": "static/icon/4.png",
-      "Name": "文本通道",
+      "Name": "Text Channel",
       "States": [
         {
           "Image": "static/icon/Image7.png",
@@ -70,13 +70,13 @@
       ],
       "UserTitleEnabled": false,
       "SupportedInMultiActions": false,
-      "Tooltip": "discord operation",
+      "Tooltip": "Go to a text channel",
       "UUID": "com.hotspot.streamdock.discord.textchannel",
       "PropertyInspectorPath": "propertyInspector/textchannel/index.html"
     },
     {
       "Icon": "static/icon/5.png",
-      "Name": "通知",
+      "Name": "Notifications",
       "States": [
         {
           "FontSize": "12",
@@ -86,13 +86,13 @@
       ],
       "UserTitleEnabled": false,
       "SupportedInMultiActions": false,
-      "Tooltip": "discord operation",
+      "Tooltip": "Display alerts for recent notifications",
       "UUID": "com.hotspot.streamdock.discord.notice",
       "PropertyInspectorPath": "propertyInspector/notice/index.html"
     },
     {
       "Icon": "static/icon/6.png",
-      "Name": "用户音量控制",
+      "Name": "User Volume Control",
       "States": [
         {
           "FontSize": "12",
@@ -102,13 +102,13 @@
       ],
       "UserTitleEnabled": false,
       "SupportedInMultiActions": false,
-      "Tooltip": "discord operation",
+      "Tooltip": "Control the volume of users in calls",
       "UUID": "com.hotspot.streamdock.discord.userVolumeControl",
       "PropertyInspectorPath": "propertyInspector/userVolumeControl/index.html"
     },
     {
       "Icon": "static/icon/7.png",
-      "Name": "音量控制",
+      "Name": "Volume Control",
       "States": [
         {
           "Image": "static/icon/Image11.png"
@@ -116,13 +116,13 @@
       ],
       "UserTitleEnabled": false,
       "SupportedInMultiActions": false,
-      "Tooltip": "discord operation",
+      "Tooltip": "Control the volume of audio devices",
       "UUID": "com.hotspot.streamdock.discord.volumeControl",
       "PropertyInspectorPath": "propertyInspector/volumeControl/index.html"
     },
     {
       "Icon": "static/icon/8.png",
-      "Name": "语音板",
+      "Name": "Soundboard",
       "States": [
         {
           "FontSize": "9",
@@ -132,13 +132,13 @@
       ],
       "UserTitleEnabled": false,
       "SupportedInMultiActions": false,
-      "Tooltip": "discord operation",
+      "Tooltip": "Plays a sound on the Discord Soundboard",
       "UUID": "com.hotspot.streamdock.discord.voiceboard",
       "PropertyInspectorPath": "propertyInspector/voiceboard/index.html"
     },
     {
       "Icon": "static/icon/9.png",
-      "Name": "设置音频设备",
+      "Name": "Set Audio Device",
       "States": [
         {
           "FontSize": "12",
@@ -148,13 +148,13 @@
       ],
       "UserTitleEnabled": false,
       "SupportedInMultiActions": false,
-      "Tooltip": "discord operation",
+      "Tooltip": "Select your audio input and output device",
       "UUID": "com.hotspot.streamdock.discord.setDevices",
       "PropertyInspectorPath": "propertyInspector/setDevices/index.html"
     },
     {
       "Icon": "static/icon/1.png",
-      "Name": "麦克风控制",
+      "Name": "Mute Control",
       "DisableAutomaticStates": true,
       "States": [
         {
@@ -169,13 +169,13 @@
       "Controllers": ["Knob"],
       "UserTitleEnabled": true,
       "SupportedInMultiActions": false,
-      "Tooltip": "discord operation",
+      "Tooltip": "Control microphone mute state from a dial",
       "UUID": "com.hotspot.streamdock.discord.mutecontrol",
       "PropertyInspectorPath": "propertyInspector/mutecontrol/index.html"
     },
     {
       "Icon": "static/icon/2.png",
-      "Name": "耳机控制",
+      "Name": "Deafen Control",
       "DisableAutomaticStates": true,
       "States": [
         {
@@ -190,7 +190,7 @@
       "Controllers": ["Knob"],
       "UserTitleEnabled": true,
       "SupportedInMultiActions": false,
-      "Tooltip": "discord operation",
+      "Tooltip": "Control deafen state from a dial",
       "UUID": "com.hotspot.streamdock.discord.deafcontrol",
       "PropertyInspectorPath": "propertyInspector/deafcontrol/index.html"
     }
@@ -201,12 +201,12 @@
     "windows": ["Discord.exe", "DiscordPTB.exe"]
   },
   "Author": "MiraBox",
-  "Name": "discord",
+  "Name": "Discord",
   "Icon": "static/favicon",
   "CodePathWin": "plugin/index.mjs",
   "CodePathMac": "plugin/index.mjs",
-  "Description": "discord operation",
-  "Category": "discord",
+  "Description": "Control Discord.",
+  "Category": "Discord",
   "CategoryIcon": "static/favicon",
   "Version": "25.11.04",
   "URL": "https://mirabox.key123.vip/home",

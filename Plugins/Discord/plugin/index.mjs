@@ -35,7 +35,7 @@ function getWindowsProxy() {
       return cleanProxy; // "127.0.0.1:7890"
     }
   } catch (err) {
-    console.error('获取系统代理失败:', err.message);
+    console.error('Failed to get system proxy:', err.message);
   }
   return null;
 }
@@ -46,7 +46,7 @@ function applyProxyToFetch(proxyAddr) {
     setGlobalDispatcher(agent);
   } else {
     setGlobalDispatcher(new ProxyAgent());
-    console.log('[代理已禁用] 没有检测到系统代理');
+    console.log('[Proxy Disabled] No system proxy detected');
   }
 }
 function startAutoRefreshProxy(intervalMs = 10000) {
@@ -82,7 +82,7 @@ async function ensureCacheDir() {
   try {
     await fs.mkdir(CACHE_DIR, { recursive: true });
   } catch (err) {
-    console.error('创建缓存目录失败:', err);
+    console.error('Failed to create cache directory:', err);
   }
 }
 let LoginState = {
@@ -117,27 +117,27 @@ class GobalListener {
 
   static async #dedupeRun(name, fn, arg, timeoutMs = 200, jitterMs = 500) {
     const key = name + JSON.stringify(arg);
-    // 已有同 key 的任务 → 复用
+    // Task with same key existing → reuse
     if (this.#pending.has(key)) {
       return this.#pending.get(key);
     }
     const runWithTimeout = async (attempt = 1) => {
       return new Promise((resolve, reject) => {
         let finished = false;
-        // 给超时加随机抖动
+        // Add random jitter to timeout
         const jitter = Math.floor(Math.random() * jitterMs); // 0 ~ jitterMs
         const actualTimeout = timeoutMs + jitter;
         const timer = setTimeout(() => {
           if (!finished) {
-            log.warn(`[dedupeRun] ${key} 第${attempt}次执行超时 ${actualTimeout}ms → 准备重试`);
-            this.#pending.delete(key); // 删除挂死缓存
+            log.warn(`[dedupeRun] ${key} execution ${attempt} timed out ${actualTimeout}ms → preparing to retry`);
+            this.#pending.delete(key); // Delete hung cache
             if (attempt === 1) {
-              // 只重试一次
+              // Only retry once
               runWithTimeout(attempt + 1)
                 .then(resolve)
                 .catch(reject);
             } else {
-              reject(new Error(`dedupeRun ${key} 重试后仍失败`));
+              reject(new Error(`dedupeRun ${key} failed even after retry`));
             }
           }
         }, actualTimeout);
@@ -157,7 +157,7 @@ class GobalListener {
             }
           })
           .finally(() => {
-            // 成功或失败都延迟1秒删除key
+            // Delay deleting key by 1 second on success or failure
             setTimeout(() => {
               this.#pending.delete(key);
             }, 1000);
@@ -327,7 +327,7 @@ class GobalListener {
     Object.values(GobalListener.#event['VOICE_CHANNEL_SELECT']).forEach(async (fun) => await fun());
   }
   static async NOTIFICATION_CREATE(data) {
-    GobalListener.data.currentNotice = data.channel_id; //记录通知通道id
+    GobalListener.data.currentNotice = data.channel_id; // Record notification channel id
     GobalListener.data.notices[data.channel_id] = GobalListener.data.notices[data.channel_id] || 0;
     GobalListener.data.notices[data.channel_id] += 1;
     if (data.icon_url) {
@@ -435,9 +435,9 @@ const login = async () => {
           LoginState.timer = setTimeout(login, 2000);
         }
 
-        log.info(`WebSocket 连接已关闭`);
+        log.info(`WebSocket connection closed`);
       });
-      await client.login({ clientId, accessToken, scopes }); // 等待登录完成
+      await client.login({ clientId, accessToken, scopes }); // Wait for login to complete
       LoginState.loginState = 1;
       log.info('Logged in successfully!');
 
@@ -480,13 +480,13 @@ const login = async () => {
   }
 };
 const refreshState = () => {
-  const str = [`连接失败${LoginState.failCount}次`, '未连接', ''];
+  const str = [`Connection failed ${LoginState.failCount} times`, 'Disconnected', ''];
   plugin.allAction.forEach((value) => {
     plugin.setTitle(value, str[LoginState.loginState + 1]);
   });
 };
 eventEmitter.subscribe('willAppear', () => refreshState());
-// 声音板
+// Soundboard
 plugin.voiceboard = class extends Actions {
   async SOUNDBOARD_SOUNDS() {
     let res = await GobalListener.getSoundboardSounds();
@@ -510,7 +510,7 @@ plugin.voiceboard = class extends Actions {
     plugin.setSettings(this.context, this.settings);
   }
   async _willAppear({ context, payload }) {
-    log.info('声音板: ', context);
+    log.info('Soundboard: ', context);
     if ('title' in this.settings) {
       plugin.setTitle(context, this.settings.title, 3, 10);
     }
@@ -557,7 +557,7 @@ plugin.voiceboard = class extends Actions {
     }
   }
 };
-// 麦克风静音
+// Microphone Mute
 plugin.mute = class extends Actions {
   stateCallback(data = null) {
     if (GobalListener.data.mute) {
@@ -572,9 +572,9 @@ plugin.mute = class extends Actions {
   }
 
   async _willAppear({ context, payload }) {
-    log.info('麦克风: ', LoginState.hasLogin);
+    log.info('Microphone: ', LoginState.hasLogin);
     const MUTE = async (data) => {
-      log.info('麦克风初始化');
+      log.info('Microphone Initialized');
       await GobalListener.addListener('VOICE_SETTINGS_UPDATE', this.stateCallback.bind(this), context);
       this.stateCallback.call(this);
     };
@@ -592,7 +592,7 @@ plugin.mute = class extends Actions {
     client?.setVoiceSettings({ mute: temp });
   }
 };
-// 耳机静音
+// Headset Mute
 plugin.deaf = class extends Actions {
   stateCallback(data = null) {
     if (GobalListener.data.deaf) {
@@ -606,9 +606,9 @@ plugin.deaf = class extends Actions {
     GobalListener.removeListener('VOICE_SETTINGS_UPDATE', context);
   }
   async _willAppear({ context, payload }) {
-    log.info('耳机: ', LoginState.hasLogin);
+    log.info('Headset: ', LoginState.hasLogin);
     const DEAF = async () => {
-      log.info('耳机静音初始化');
+      log.info('Headset Mute Initialized');
       await GobalListener.addListener('VOICE_SETTINGS_UPDATE', this.stateCallback.bind(this), context);
       this.stateCallback.call(this);
     };
@@ -618,7 +618,7 @@ plugin.deaf = class extends Actions {
     this.unsubscribe = eventEmitter.subscribe('Login', DEAF);
   }
   keyUp({ context }) {
-    //设置耳机静音或解除静音
+    // Set headset mute or unmute
     try {
       let temp = !GobalListener.data.deaf;
       client?.setVoiceSettings({ deaf: temp });
@@ -627,10 +627,10 @@ plugin.deaf = class extends Actions {
     }
   }
 };
-// 麦克风控制
+// Microphone Control
 plugin.mutecontrol = class extends Actions {
   async _willAppear({ context, payload }) {
-    log.info('麦克风控制: ', LoginState.hasLogin);
+    log.info('Microphone Control: ', LoginState.hasLogin);
     const stateCallback = (data = null) => {
       if (GobalListener.data.mute) {
         plugin.setState(context, 1);
@@ -643,7 +643,7 @@ plugin.mutecontrol = class extends Actions {
       }
     };
     const MUTE = async (data) => {
-      log.info('麦克风控制初始化');
+      log.info('Microphone Control Initialized');
       await GobalListener.addListener('VOICE_SETTINGS_UPDATE', stateCallback, context);
       stateCallback();
     };
@@ -679,10 +679,10 @@ plugin.mutecontrol = class extends Actions {
     }
   }
 };
-// 耳机控制
+// Headset Control
 plugin.deafcontrol = new Actions({
   async _willAppear({ context, payload }) {
-    log.info('耳机控制: ', LoginState.hasLogin);
+    log.info('Headset Control: ', LoginState.hasLogin);
     const stateCallback = (data = null) => {
       if (GobalListener.data.deaf) {
         plugin.setState(context, 1);
@@ -691,7 +691,7 @@ plugin.deafcontrol = new Actions({
       }
     };
     const DEAF = async () => {
-      log.info('耳机控制初始化');
+      log.info('Headset Control Initialized');
       await GobalListener.addListener('VOICE_SETTINGS_UPDATE', stateCallback, context);
       stateCallback();
     };
@@ -719,7 +719,7 @@ plugin.deafcontrol = new Actions({
     }
   },
   dialUp({ context }) {
-    //设置耳机静音或解除静音
+    // Set headset mute or unmute
     try {
       let temp = !GobalListener.data.deaf;
       client?.setVoiceSettings({ deaf: temp });
@@ -728,7 +728,7 @@ plugin.deafcontrol = new Actions({
     }
   },
 });
-// 语音通道
+// Voice Channel
 plugin.voicechannel = class extends Actions {
   async stateCallback() {
     const { selectImage, ...temp } = await getSelectChannel(this.settings);
@@ -748,9 +748,9 @@ plugin.voicechannel = class extends Actions {
     this.unsubscribe();
   }
   async _willAppear({ context, payload }) {
-    log.info('语音通道: ', context);
+    log.info('Voice Channel: ', context);
     const VOICECHANNEL = async () => {
-      log.info('语音通道初始化');
+      log.info('Voice Channel Initialized');
       this.stateCallback();
     };
     if (LoginState.hasLogin) {
@@ -783,7 +783,7 @@ plugin.voicechannel = class extends Actions {
           ?.selectVoiceChannel(payload.settings.channel)
           .then((res) => {
             plugin.showOk(context);
-            log.info('连接语音通道：' + payload.settings.channel);
+            log.info('Connect Voice Channel: ' + payload.settings.channel);
           })
           .catch((error) => {
             if (error.code == 4006) {
@@ -795,7 +795,7 @@ plugin.voicechannel = class extends Actions {
     });
   }
 };
-// 文本通道
+// Text Channel
 plugin.textchannel = class extends Actions {
   async stateCallback() {
     const { selectImage, ...temp } = await getSelectChannel(this.settings, true);
@@ -817,9 +817,9 @@ plugin.textchannel = class extends Actions {
     }
   }
   async _willAppear({ context, payload }) {
-    log.info('文本通道: ', context);
+    log.info('Text Channel: ', context);
     const TEXTCHANNEL = async () => {
-      log.info('文本通道初始化');
+      log.info('Text Channel Initialized');
       this.stateCallback();
     };
     if (LoginState.hasLogin) {
@@ -842,17 +842,17 @@ plugin.textchannel = class extends Actions {
     client
       ?.selectTextChannel(payload.settings.channel)
       .then((res) => {
-        log.info('连接文本通道：' + payload.settings.channel);
+        log.info('Connect Text Channel: ' + payload.settings.channel);
       })
       .catch((error) => {
         log.error('getVoiceSettings failed:', error);
       });
   }
 };
-// 获取通知
+// Get Notification
 plugin.notice = new Actions({
   async _willAppear({ context, payload }) {
-    log.info('获取通知: ', context);
+    log.info('Get Notification: ', context);
     const stateCallback = async () => {
       const sum = Object.values(GobalListener.data.notices).reduce((acc, val) => acc + val, 0);
       if (GobalListener.data.noticeImage == null) {
@@ -865,8 +865,8 @@ plugin.notice = new Actions({
       const height = 128;
       const frameRate = 20; // FPS
       const frameDelay = 1000 / frameRate;
-      const amplitudeTranslate = 6; // 最大水平偏移像素
-      const freq = 6; // Hz, 一秒内振动次数
+      const amplitudeTranslate = 6; // Maximum horizontal offset pixels
+      const freq = 6; // Hz, vibrations per second
       let frameIndex = 0;
       const duration = 1500;
       const startTime = Date.now();
@@ -875,10 +875,10 @@ plugin.notice = new Actions({
         clearInterval(this.timer);
       }
       const timer = setInterval(async () => {
-        const t = frameIndex / frameRate; // 当前秒数
+        const t = frameIndex / frameRate; // Current seconds
         const sinValue = Math.sin(t * 2 * Math.PI * freq);
         const offsetX = Math.round(sinValue * amplitudeTranslate);
-        const blank = new Jimp({ width: width, height: height, color: 0x00000000 }); // 避免不透明背景
+        const blank = new Jimp({ width: width, height: height, color: 0x00000000 }); // Avoid opaque background
         await blank.composite(image, offsetX, 0);
         const base64String = await blank.getBase64('image/jpeg', { quality: 70 });
         plugin.setImage(context, base64String);
@@ -891,7 +891,7 @@ plugin.notice = new Actions({
       }, frameDelay);
     };
     const NOTICE = async () => {
-      log.info('获取通知初始化');
+      log.info('Get Notification Initialized');
       await GobalListener.addListener('NOTIFICATION_CREATE', stateCallback, context);
     };
     if (LoginState.hasLogin) {
@@ -916,7 +916,7 @@ plugin.notice = new Actions({
     }
   },
 });
-// 用户音量控制
+// User Volume Control
 plugin.userVolumeControl = new Actions({
   async VOLUME(context) {
     if (LoginState.hasLogin == false) {
@@ -939,8 +939,8 @@ plugin.userVolumeControl = new Actions({
     });
     this.currentUser[context] = selectUserID;
     if (elementExists.length == 0) {
-      //没有选中的用户或者选中的用户不在了
-      plugin.setTitle(context, '用户不在频道中', 3, 10);
+      // No user selected or selected user is no longer there
+      plugin.setTitle(context, 'User not in channel', 3, 10);
     } else {
       let test = elementExists[0]?.user?.global_name || elementExists[0]?.user?.username;
       plugin.setTitle(context, test, 3, 6);
@@ -949,7 +949,7 @@ plugin.userVolumeControl = new Actions({
     }
   },
   async _willAppear({ context, payload }) {
-    log.info('用户音量控制: ', context);
+    log.info('User Volume Control: ', context);
     this.currentUser = {};
     if (LoginState.hasLogin) {
       this.VOLUME(context);
@@ -1019,10 +1019,10 @@ plugin.userVolumeControl = new Actions({
     }
   },
 });
-// 音量控制
+// Volume Control
 plugin.volumeControl = new Actions({
   async _willAppear({ context, payload }) {
-    log.info('音量控制: ', LoginState.hasLogin);
+    log.info('Volume Control: ', LoginState.hasLogin);
   },
   keyUp({ context, payload }) {
     if (payload.settings.rdio && payload.settings.slider) {
@@ -1032,10 +1032,10 @@ plugin.volumeControl = new Actions({
     }
   },
 });
-// 设置音频设备
+// Set Audio Device
 plugin.setDevices = new Actions({
   async _willAppear({ context, payload }) {
-    log.info('设置音频设备: ', context);
+    log.info('Set Audio Device: ', context);
     const stateCallback = (data) => {
       let settings = {};
       settings.inputDevices = GobalListener.data.input?.availableDevices || GobalListener.data.input?.available_devices;
@@ -1043,7 +1043,7 @@ plugin.setDevices = new Actions({
       plugin.setSettings(context, settings);
     };
     const SETDEVICES = async () => {
-      log.info('设置音频设备初始化');
+      log.info('Set Audio Device Initialized');
       await GobalListener.addListener('VOICE_SETTINGS_UPDATE', stateCallback, context);
       stateCallback();
     };
@@ -1084,7 +1084,7 @@ plugin.setDevices = new Actions({
 //     res.sendFile(__dirname + '/callback.html');
 //   });
 
-//   //跳转授权
+//   // Jump to authorization
 //   //Jump authorization
 //   app.get('/authorization', async (req, res) => {
 //     // log.info(req.query)
@@ -1103,24 +1103,24 @@ plugin.setDevices = new Actions({
 //     // res.redirect(`https://discord.com/oauth2/authorize?client_id=${id}&response_type=token&scope=identify+rpc+rpc.voice.read+messages.read+rpc.notifications.read+rpc.voice.write`)
 //   });
 
-//   // 启动服务器
+//   // Start server
 //   // Start the server
 //   app.listen(port, () => {
 //     log.info(`Server is running at http://127.0.0.1:${port}`);
 //   });
 
-//   // 添加接收数据的路由处理器
+//   // Add route handler for receiving data
 //   // Add a route handler to receive data
 //   app.post('/data', (req, res) => {
 //     let data = '';
-//     // 接收请求数据
+//     // Receive request data
 //     // Receiving request data
 //     req.on('data', (chunk) => {
 //       data += chunk;
 //     });
 
 //     req.on('end', async () => {
-//       // 在这里可以对接收到的数据进行处理
+//       // Process received data here
 //       // Here you can process the received data
 //       const parsedData = JSON.parse(data);
 
@@ -1129,9 +1129,9 @@ plugin.setDevices = new Actions({
 //       LoginState.clientId = id;
 //       LoginState.accessToken = parsedData.access_token;
 //       plugin.setGlobalSettings({ hasToken: true });
-//       // 将数据存储到文件
+//       // Store data to file
 //       // Store data in a file
-//       const filePath = './data/globalData.json'; // 路径 path
+//       const filePath = './data/globalData.json'; // Path
 //       try {
 //         await fs.outputJson(filePath, temp);
 //         login();
@@ -1139,12 +1139,12 @@ plugin.setDevices = new Actions({
 //         log.error('output json error');
 //       }
 //     });
-//     res.json({ msg: '完成' });
+//     res.json({ msg: 'Completed' });
 //   });
 
 //   app.get('/logout', async (req, res) => {
 //     log.info('logout');
-//     const filePath = './data/globalData.json'; // 路径 path
+//     const filePath = './data/globalData.json'; // Path
 //     try {
 //       client = null;
 //       await fs.outputJson(filePath, {});
@@ -1167,7 +1167,7 @@ plugin.setDevices = new Actions({
 //     });
 //   });
 // }
-//启动服务器
+// Start server
 //Start the server
 // startServer();
 plugin.didReceiveGlobalSettings = async (data) => {

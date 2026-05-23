@@ -1,9 +1,9 @@
 import fs from 'fs';
 import { fileURLToPath } from 'url';
 import path, { dirname } from 'path';
-// __filename 等价物
+// __filename equivalent
 const __filename = fileURLToPath(import.meta.url);
-// __dirname 等价物
+// __dirname equivalent
 const __dirname = dirname(__filename);
 function getLogFilePath() {
   const now = new Date();
@@ -51,7 +51,7 @@ const log = {
 };
 
 //##################################################
-//##################全局异常捕获#####################
+//################## Global Exception Catch #####################
 process.on('uncaughtException', (error) => {
   log.error('Uncaught Exception:', error);
 });

@@ -1,4 +1,4 @@
-// 自定义事件类
+// Custom event class
 class EventPlus {
   constructor() {
     this.event = new EventTarget();
@@ -17,23 +17,23 @@ class EventPlus {
   }
 }
 
-// 补零
+// Pad with zero
 String.prototype.fill = function () {
   return this >= 10 ? this : '0' + this;
 };
 
-// unicode编码转换字符串
+// convert unicode to string
 String.prototype.uTs = function () {
   return eval('"' + Array.from(this).join('') + '"');
 };
 
-// 字符串转换unicode编码
+// convert string to unicode
 String.prototype.sTu = function (str = '') {
   Array.from(this).forEach((item) => (str += `\\u${item.charCodeAt(0).toString(16)}`));
   return str;
 };
 
-// 全局变量/方法
+// Global variables/methods
 const $emit = new EventPlus(),
   $ = (selector, isAll = false) => {
     const element = document.querySelector(selector),
@@ -49,12 +49,12 @@ const $emit = new EventPlus(),
     if (!isAll && element) {
       return Object.assign(element, methods);
     } else if (!isAll && !element) {
-      throw `HTML没有 ${selector} 元素! 请检查是否拼写错误`;
+      throw `HTML does not have ${selector} element! Please check for spelling errors`;
     }
     return Array.from(document.querySelectorAll(selector)).map((item) => Object.assign(item, methods));
   };
 
-// 节流函数
+// Throttle function
 $.throttle = (fn, delay) => {
   let Timer = null;
   return function () {
@@ -66,7 +66,7 @@ $.throttle = (fn, delay) => {
   };
 };
 
-// 防抖函数
+// Debounce function
 $.debounce = (fn, delay) => {
   let Timer = null;
   return function () {
@@ -75,7 +75,7 @@ $.debounce = (fn, delay) => {
   };
 };
 
-// 绑定限制数字方法
+// Bind limit number method
 Array.from($('input[type="num"]', true)).forEach((item) => {
   item.addEventListener('input', function limitNum() {
     if (!item.value || /^\d+$/.test(item.value)) return;
