@@ -4,8 +4,6 @@ import path from 'path';
 import { createJimp } from '@jimp/core';
 import { loadFont, measureText, defaultFormats, defaultPlugins } from 'jimp';
 import webp from '@jimp/wasm-webp';
-import { setGlobalDispatcher, ProxyAgent } from 'undici';
-import { execSync } from 'child_process';
 import { Plugins, Actions, eventEmitter } from './utils/plugin.mjs';
 import RPC from './discord-rpc/src/index.js';
 import fs from 'fs-extra';
@@ -16,43 +14,6 @@ const Jimp = createJimp({
   formats: [...defaultFormats, webp],
   plugins: defaultPlugins,
 });
-function getWindowsProxy() {
-  try {
-    const output = execSync('reg query "HKCU\\Software\\Microsoft\\Windows\\CurrentVersion\\Internet Settings" /v ProxyServer', { encoding: 'utf8' });
-    const match = output.match(/ProxyServer\s+REG_SZ\s+([^\r\n]+)/);
-    if (match) {
-      const proxyString = match[1].trim();
-      const parts = proxyString.split(';');
-      const httpProxy = parts.find((p) => p.startsWith('http=')) || parts[0];
-      const cleanProxy = httpProxy.replace(/^http=/, '');
-      return cleanProxy; // "127.0.0.1:7890"
-    }
-  } catch (err) {
-    console.error('Failed to get system proxy:', err.message);
-  }
-  return null;
-}
-function applyProxyToFetch(proxyAddr) {
-  if (proxyAddr) {
-    const agent = new ProxyAgent(`http://${proxyAddr}`);
-    process.env.GLOBAL_AGENT_HTTP_PROXY = proxyAddr;
-    setGlobalDispatcher(agent);
-  } else {
-    setGlobalDispatcher(new ProxyAgent());
-    console.log('[Proxy Disabled] No system proxy detected');
-  }
-}
-function startAutoRefreshProxy(intervalMs = 10000) {
-  function update() {
-    const proxyAddr = getWindowsProxy();
-    if (proxyAddr) {
-      applyProxyToFetch(proxyAddr);
-    }
-  }
-  update();
-  setInterval(update, intervalMs);
-}
-startAutoRefreshProxy();
 
 const SANS_32_WHITE = path.resolve(__dirname, 'font', 'open-sans-32-white.fnt');
 const plugin = new Plugins('discord');
