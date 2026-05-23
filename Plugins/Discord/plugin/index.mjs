@@ -46,7 +46,6 @@ let LoginState = {
   loginState: 0,
   failCount: 0,
   refreshTokenCout: 0,
-  appState: false,
 };
 class GobalListener {
   static data = {
@@ -1135,24 +1134,7 @@ plugin.didReceiveGlobalSettings = async (data) => {
       plugin.setGlobalSettings(plugin.globalSettings);
     }
 
-    if (LoginState.appState == true) {
-      clearTimeout(LoginState.timer);
-      login();
-    }
-  }
-};
-plugin.applicationDidLaunch = async (data) => {
-  log.info('app run');
-  LoginState.appState = true;
-
-  if (plugin.globalSettings?.accessToken && plugin.globalSettings?.clientId) {
     clearTimeout(LoginState.timer);
-    LoginState.timer = setTimeout(login, 5000);
-  }
-};
-plugin.applicationDidTerminate = () => {
-  LoginState.appState = false;
-  if (LoginState.timer) {
-    clearTimeout(LoginState.timer);
+    login();
   }
 };

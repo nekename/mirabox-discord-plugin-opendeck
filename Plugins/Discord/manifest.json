@@ -196,10 +196,6 @@
     }
   ],
   "SDKVersion": 1,
-  "ApplicationsToMonitor": {
-    "mac": ["com.apple.mail"],
-    "windows": ["Discord.exe", "DiscordPTB.exe"]
-  },
   "Author": "MiraBox",
   "Name": "Discord",
   "Icon": "static/favicon",
