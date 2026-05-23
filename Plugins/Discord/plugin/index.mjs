@@ -14,7 +14,7 @@ import webp from '@jimp/wasm-webp';
 import { setGlobalDispatcher, ProxyAgent } from 'undici';
 import { execSync } from 'child_process';
 import { Plugins, Actions, eventEmitter } from './utils/plugin.mjs';
-import RPC from 'discord-rpc';
+import RPC from './discord-rpc/src/index.js';
 import fs from 'fs-extra';
 import crypto from 'crypto';
 const __filename = fileURLToPath(import.meta.url);

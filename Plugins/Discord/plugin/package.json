@@ -18,7 +18,7 @@
     "axios": "^1.12.2",
     "cors": "^2.8.5",
     "cwebp": "^3.2.0",
-    "discord-rpc": "^4.0.1",
+    "discord-rpc": "file:./discord-rpc",
     "express": "^4.19.2",
     "fs-extra": "^11.3.0",
     "get-proxy-settings": "^0.1.13",

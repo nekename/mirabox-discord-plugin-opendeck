@@ -14,22 +14,12 @@
 
 # Dependencies
 **/node_modules/
-!Plugins/
-!Plugins/Discord/
-!Plugins/Discord/plugin/
-!Plugins/Discord/plugin/node_modules/
-!Plugins/Discord/plugin/node_modules/discord-rpc/
-!Plugins/Discord/plugin/node_modules/discord-rpc/**
-Plugins/Discord/plugin/node_modules/*
-!Plugins/Discord/plugin/node_modules/discord-rpc/
-!Plugins/Discord/plugin/node_modules/discord-rpc/**
 
 # Build outputs
 **/build/
 **/dist/
 **/*.build/
 **/out/
-
 
 **/log/
 
