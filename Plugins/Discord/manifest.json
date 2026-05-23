@@ -1,16 +1,16 @@
 {
   "Actions": [
     {
-      "Icon": "static/icon/1.png",
+      "Icon": "static/icon/1",
       "Name": "Mute",
       "DisableAutomaticStates": true,
       "States": [
         {
-          "Image": "static/icon/Image1.png",
+          "Image": "static/icon/Image1",
           "Name": "Unmute"
         },
         {
-          "Image": "static/icon/Image2.png",
+          "Image": "static/icon/Image2",
           "Name": "Mute"
         }
       ],
@@ -21,16 +21,16 @@
       "PropertyInspectorPath": "propertyInspector/mute/index.html"
     },
     {
-      "Icon": "static/icon/2.png",
+      "Icon": "static/icon/2",
       "Name": "Deafen",
       "DisableAutomaticStates": true,
       "States": [
         {
-          "Image": "static/icon/Image3.png",
+          "Image": "static/icon/Image3",
           "Name": "Undeafen"
         },
         {
-          "Image": "static/icon/Image4.png",
+          "Image": "static/icon/Image4",
           "Name": "Deafen"
         }
       ],
@@ -45,11 +45,11 @@
       "Name": "Voice Channel",
       "States": [
         {
-          "Image": "static/icon/Image5.png",
+          "Image": "static/icon/Image5",
           "Name": "Enter"
         },
         {
-          "Image": "static/icon/Image5.png",
+          "Image": "static/icon/Image5",
           "Name": "Leave"
         }
       ],
@@ -60,11 +60,11 @@
       "PropertyInspectorPath": "propertyInspector/voicechannel/index.html"
     },
     {
-      "Icon": "static/icon/4.png",
+      "Icon": "static/icon/4",
       "Name": "Text Channel",
       "States": [
         {
-          "Image": "static/icon/Image7.png",
+          "Image": "static/icon/Image7",
           "Name": "Enter"
         }
       ],
@@ -75,13 +75,13 @@
       "PropertyInspectorPath": "propertyInspector/textchannel/index.html"
     },
     {
-      "Icon": "static/icon/5.png",
+      "Icon": "static/icon/5",
       "Name": "Notifications",
       "States": [
         {
           "FontSize": "12",
           "TitleAlignment": "center",
-          "Image": "static/icon/Image9.png"
+          "Image": "static/icon/Image9"
         }
       ],
       "UserTitleEnabled": false,
@@ -91,13 +91,13 @@
       "PropertyInspectorPath": "propertyInspector/notice/index.html"
     },
     {
-      "Icon": "static/icon/6.png",
+      "Icon": "static/icon/6",
       "Name": "User Volume Control",
       "States": [
         {
           "FontSize": "12",
           "TitleAlignment": "bottom",
-          "Image": "static/icon/Image10.png"
+          "Image": "static/icon/Image10"
         }
       ],
       "UserTitleEnabled": false,
@@ -107,11 +107,11 @@
       "PropertyInspectorPath": "propertyInspector/userVolumeControl/index.html"
     },
     {
-      "Icon": "static/icon/7.png",
+      "Icon": "static/icon/7",
       "Name": "Volume Control",
       "States": [
         {
-          "Image": "static/icon/Image11.png"
+          "Image": "static/icon/Image11"
         }
       ],
       "UserTitleEnabled": false,
@@ -121,13 +121,13 @@
       "PropertyInspectorPath": "propertyInspector/volumeControl/index.html"
     },
     {
-      "Icon": "static/icon/8.png",
+      "Icon": "static/icon/8",
       "Name": "Soundboard",
       "States": [
         {
           "FontSize": "9",
           "TitleAlignment": "bottom",
-          "Image": "static/icon/Image12.png"
+          "Image": "static/icon/Image12"
         }
       ],
       "UserTitleEnabled": false,
@@ -137,13 +137,13 @@
       "PropertyInspectorPath": "propertyInspector/voiceboard/index.html"
     },
     {
-      "Icon": "static/icon/9.png",
+      "Icon": "static/icon/9",
       "Name": "Set Audio Device",
       "States": [
         {
           "FontSize": "12",
           "TitleAlignment": "center",
-          "Image": "static/icon/Image13.png"
+          "Image": "static/icon/Image13"
         }
       ],
       "UserTitleEnabled": false,
@@ -153,16 +153,16 @@
       "PropertyInspectorPath": "propertyInspector/setDevices/index.html"
     },
     {
-      "Icon": "static/icon/1.png",
+      "Icon": "static/icon/1",
       "Name": "Mute Control",
       "DisableAutomaticStates": true,
       "States": [
         {
-          "Image": "static/icon/Image1.png",
+          "Image": "static/icon/Image1",
           "Name": "Unmute"
         },
         {
-          "Image": "static/icon/Image2.png",
+          "Image": "static/icon/Image2",
           "Name": "Mute"
         }
       ],
@@ -174,16 +174,16 @@
       "PropertyInspectorPath": "propertyInspector/mutecontrol/index.html"
     },
     {
-      "Icon": "static/icon/2.png",
+      "Icon": "static/icon/2",
       "Name": "Deafen Control",
       "DisableAutomaticStates": true,
       "States": [
         {
-          "Image": "static/icon/Image3.png",
+          "Image": "static/icon/Image3",
           "Name": "Undeafen"
         },
         {
-          "Image": "static/icon/Image4.png",
+          "Image": "static/icon/Image4",
           "Name": "Deafen"
         }
       ],
