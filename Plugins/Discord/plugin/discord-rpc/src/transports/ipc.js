@@ -15,28 +15,52 @@ const OPCodes = {
 
 function getIPCPath(id) {
   if (process.platform === 'win32') {
-    return `\\\\?\\pipe\\discord-ipc-${id}`;
+    return [`\\\\?\\pipe\\discord-ipc-${id}`];
   }
   const { env: { XDG_RUNTIME_DIR, TMPDIR, TMP, TEMP } } = process;
-  const prefix = XDG_RUNTIME_DIR || TMPDIR || TMP || TEMP || '/tmp';
-  return `${prefix.replace(/\/$/, '')}/discord-ipc-${id}`;
+
+  if (process.platform === 'darwin') {
+    const prefix = TMPDIR || TMP || TEMP || '/tmp';
+    return [`${prefix.replace(/\/$/, '')}/discord-ipc-${id}`];
+  }
+
+  const possiblePaths = [`/tmp/discord-ipc-${id}`];
+  if (XDG_RUNTIME_DIR) {
+    const prefix = XDG_RUNTIME_DIR.replace(/\/$/, '');
+    possiblePaths.push(`${prefix}/app/com.discordapp.Discord/discord-ipc-${id}`);
+    possiblePaths.push(`${prefix}/snap.discord/discord-ipc-${id}`);
+    possiblePaths.push(`${prefix}/discord-ipc-${id}`);
+  }
+  return possiblePaths;
 }
 
 function getIPC(id = 0) {
   return new Promise((resolve, reject) => {
-    const path = getIPCPath(id);
+    const paths = getIPCPath(id);
+    let pathIdx = 0;
+
     const onerror = () => {
-      if (id < 10) {
-        resolve(getIPC(id + 1));
+      pathIdx++;
+      if (pathIdx < paths.length) {
+        connectToPath();
       } else {
-        reject(new Error('Could not connect'));
+        if (id < 10) {
+          resolve(getIPC(id + 1));
+        } else {
+          reject(new Error('Could not connect'));
+        }
       }
     };
-    const sock = net.createConnection(path, () => {
-      sock.removeListener('error', onerror);
-      resolve(sock);
-    });
-    sock.once('error', onerror);
+
+    function connectToPath() {
+      const sock = net.createConnection(paths[pathIdx], () => {
+        sock.removeListener('error', onerror);
+        resolve(sock);
+      });
+      sock.once('error', onerror);
+    }
+
+    connectToPath();
   });
 }
 
