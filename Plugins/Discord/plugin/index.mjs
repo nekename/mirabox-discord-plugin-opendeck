@@ -1,13 +1,6 @@
 import { log } from './utils/log.mjs';
+import { fileURLToPath } from 'url';
 import path from 'path';
-import inspector from 'inspector';
-try {
-  process.chdir(path.dirname());
-  inspector.open(9229, '127.0.0.1', true);
-  console.log('Inspector listening at:', inspector.url());
-} catch (e) {
-  console.error('Failed to open inspector:', e);
-}
 import { createJimp } from '@jimp/core';
 import { loadFont, measureText, defaultFormats, defaultPlugins } from 'jimp';
 import webp from '@jimp/wasm-webp';
