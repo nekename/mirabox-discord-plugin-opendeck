@@ -133,7 +133,10 @@ async function connectElgatoStreamDeckSocket(port, uuid, event, app, info) {
   $action = info.action;
   $context = info.context;
   $websocket = new WebSocket('ws://127.0.0.1:' + port);
-  $websocket.onopen = () => $websocket.send(JSON.stringify({ event, uuid }));
+  $websocket.onopen = () => {
+    $websocket.send(JSON.stringify({ event, uuid }));
+    $websocket.send(JSON.stringify({ event: 'getSettings', context: $context }));
+  };
 
   // Persistent data proxy
   $websocket.onmessage = (e) => {
