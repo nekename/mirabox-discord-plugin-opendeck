@@ -1,3 +1,18 @@
+// Monkey-patch fetch to support loading local WebAssembly files
+// because undici's fetch does not fully support file:/// URLs yet.
+const originalFetch = global.fetch;
+global.fetch = async (url, options) => {
+  if (typeof url === 'string' && url.endsWith('.wasm') && url.startsWith('file://')) {
+    const fs = await import('fs');
+    const { fileURLToPath } = await import('url');
+    const buffer = fs.readFileSync(fileURLToPath(url));
+    return new Response(buffer, {
+      headers: { 'Content-Type': 'application/wasm' },
+    });
+  }
+  return originalFetch(url, options);
+};
+
 import { log } from './utils/log.mjs';
 import { fileURLToPath } from 'url';
 import path from 'path';
