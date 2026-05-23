@@ -291,7 +291,7 @@ class GobalListener {
     }
   }
   static async VOICE_CHANNEL_SELECT(data) {
-    await getCurrentChannelsUser(data);
+    await this.getCurrentChannelsUser(data);
     Object.values(GobalListener.#event['VOICE_CHANNEL_SELECT']).forEach(async (fun) => await fun());
   }
   static async NOTIFICATION_CREATE(data) {
@@ -423,7 +423,7 @@ const login = async () => {
         // code: 4009, Token does not match current user Invalid token
         plugin.globalSettings.accessToken = '';
         LoginState.refreshTokenCout++;
-        if (refreshTokenCout > 2) {
+        if (LoginState.refreshTokenCout > 2) {
           log.error('refreshToken more than 2,clear id and secret');
           plugin.globalSettings.clientId = '';
           plugin.globalSettings.clientSecret = '';
@@ -994,8 +994,7 @@ plugin.volumeControl = new Actions({
   },
   keyUp({ context, payload }) {
     if (payload.settings.rdio && payload.settings.slider) {
-      res = {};
-      res[payload.settings.rdio].volume = parseInt(payload.settings.slider);
+      let res = { [payload.settings.rdio]: { volume: parseInt(payload.settings.slider) } };
       client?.setVoiceSettings(res);
     }
   },
