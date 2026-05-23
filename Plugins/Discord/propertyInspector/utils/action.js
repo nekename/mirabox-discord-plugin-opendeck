@@ -208,7 +208,7 @@ function openAuthorization() {
   // Calculate centered position (still in CSS pixels)
   const left = (screenWidth - popupWidth) / 2;
   const top = (screenHeight - popupHeight) / 2;
-  window.open('../utils/authorization.html', '_blank', `width=${popupWidth},height=${popupHeight},top=${top},left=${left}`);
+  window.open('../utils/authorization.html');
 }
 
 // StreamDock file path callback
