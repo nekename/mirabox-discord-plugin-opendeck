@@ -234,10 +234,12 @@ class GobalListener {
   static async #getGuilds() {
     let temp = await client.getGuilds();
     GobalListener.data.guilds = temp.guilds;
+    GobalListener.data.guilds.sort((a, b) => a.name.localeCompare(b.name));
     return GobalListener.data.guilds;
   }
   static async #getChannels(guilds_id) {
     GobalListener.#channelsCache[guilds_id] = await client.getChannels(guilds_id);
+    GobalListener.#channelsCache[guilds_id].sort((a, b) => a.name.localeCompare(b.name));
     return GobalListener.#channelsCache[guilds_id];
   }
   static async #getCurrentChannelsUser(res = null) {
